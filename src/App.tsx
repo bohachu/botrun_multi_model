@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import { QueryClientProvider, QueryClient } from "react-query"
 import { useRecoilValue } from "recoil"
 import { authUserState } from "@utils/atoms"
+import Compare from "@components/index"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,7 +20,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Routes>
         {user !== null ? (
-          <Route path="/" element={<div>Some page</div>} />
+          <Route path="/" element={<Compare />} />
         ) : (
           <Route path="*" element={<div>Login</div>} />
         )}
