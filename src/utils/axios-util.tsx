@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from "axios"
-import { TokenProps } from "@utils/types"
+import { TokenProps } from "@/types"
 import { authTokenState } from "@utils/atoms"
 import { useRecoilState } from "recoil"
 import { useEffect, ReactNode, useState } from "react"
