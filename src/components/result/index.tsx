@@ -1,3 +1,5 @@
+import { useRecoilValue } from "recoil"
+import { userInputState } from "@utils/atoms"
 import { MessageProps } from "@/types"
 import TabLabel from "./TabLabel"
 import Content from "./Content"
@@ -8,15 +10,17 @@ type ResultProps = {
 }
 
 export default function Index({ messages }: ResultProps) {
+  const userInput = useRecoilValue(userInputState)
+
   return (
     <div className="result-container">
       <ul id="tabs-nav" className="tabs-nav">
-        {<TabLabel name="Qwen1.5-72b chat" />}
-        {<TabLabel name="Mixtral-8x7b" />}
+        {<TabLabel name={userInput?.model1} />}
+        {<TabLabel name={userInput?.model2} />}
       </ul>
       <div id="tabs-content" className="tabs-content">
-        <Content question="" answer="" />
-        <Content question="" answer="" />
+        <Content question={userInput?.question} answer="" />
+        <Content question={userInput?.question} answer="" />
       </div>
       <Download />
     </div>

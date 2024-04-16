@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import { models } from "@/samples"
 import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
 import { MessageProps } from "@/types"
+import { useRecoilState } from "recoil"
+import { userInputState } from "@utils/atoms"
 // import useModel from "@/hooks/useModel"
 
 type PanelProps = {
@@ -10,9 +12,14 @@ type PanelProps = {
 
 export default function Index({ setMessages }: PanelProps) {
   // const { data: models } = useModel()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const [text, setText] = useState("")
+  const [isComposing, setIsComposing] = useState(false)
   const [selectedCollection, setSelectedCollection] = useState("")
   const [selectedModelLeft, setSelectedModelLeft] = useState(models.list[0])
   const [selectedModelRight, setSelectedModelRight] = useState(models.list[0])
+  const [userInput, setUserInput] = useRecoilState(userInputState)
 
   const { sendJsonMessage } = useBotrunWebSocket({ setMessages })
 
@@ -31,9 +38,38 @@ export default function Index({ setMessages }: PanelProps) {
   const handleModelRightChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModelRight(event.target.value)
   }
-  const handleClick = () => {
+  function handleSend() {
+    if (text.trim() === "") return
     sendJsonMessage({})
+    setUserInput({
+      question: text,
+      model1: selectedModelLeft,
+      model2: selectedModelRight,
+    })
+    setText("")
+    textareaRef.current?.focus()
   }
+  function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+    setText(event.target.value)
+  }
+  function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.shiftKey && event.key === "Enter") {
+    } else if (event.key === "Enter" && !isComposing) {
+      handleSend()
+      event.preventDefault()
+    }
+  }
+  const handleCompositionStart: React.CompositionEventHandler<HTMLTextAreaElement> = () => {
+    setIsComposing(true)
+  }
+  const handleCompositionEnd: React.CompositionEventHandler<HTMLTextAreaElement> = () => {
+    setIsComposing(false)
+  }
+
+  useEffect(() => {
+    if (!textareaRef.current) return
+    textareaRef.current.focus()
+  }, [textareaRef])
 
   return (
     <div className="panel-container">
@@ -87,12 +123,20 @@ export default function Index({ setMessages }: PanelProps) {
         <div className="form-item">
           <div className="field">提問</div>
           <div className="value">
-            <textarea name="" cols={30} rows={10}></textarea>
+            <textarea
+              ref={textareaRef}
+              cols={30}
+              rows={10}
+              onChange={handleChange}
+              onKeyDown={onKeyDown}
+              onCompositionStart={handleCompositionStart}
+              onCompositionEnd={handleCompositionEnd}
+            ></textarea>
           </div>
         </div>
       </div>
       <div className="fn-area">
-        <button className="br-btn large full obvious" onClick={handleClick}>
+        <button className="br-btn large full obvious" onClick={handleSend}>
           <span>提問</span>
         </button>
       </div>
