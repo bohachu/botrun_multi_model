@@ -1,12 +1,20 @@
 import { useState } from "react"
 import { models } from "@/samples"
+import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
+import { MessageProps } from "@/types"
 // import useModel from "@/hooks/useModel"
 
-export default function Index() {
+type PanelProps = {
+  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>
+}
+
+export default function Index({ setMessages }: PanelProps) {
   // const { data: models } = useModel()
   const [selectedCollection, setSelectedCollection] = useState("")
   const [selectedModelLeft, setSelectedModelLeft] = useState(models.list[0])
   const [selectedModelRight, setSelectedModelRight] = useState(models.list[0])
+
+  const { sendJsonMessage } = useBotrunWebSocket({ setMessages })
 
   const handleCollectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value

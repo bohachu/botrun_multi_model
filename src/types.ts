@@ -11,3 +11,8 @@ export type UserStateProps = {
   is_disabled: boolean
   is_admin: boolean
 }
+
+export type MessageProps = {
+  name: string
+  message: string
+}
