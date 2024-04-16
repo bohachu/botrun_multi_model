@@ -19,8 +19,8 @@ export default function Index({ messages }: ResultProps) {
         {<TabLabel name={userInput?.model2} />}
       </ul>
       <div id="tabs-content" className="tabs-content">
-        <Content question={userInput?.question} answer="" />
-        <Content question={userInput?.question} answer="" />
+        <Content model={userInput?.model1} question={userInput?.question} answer="" />
+        <Content model={userInput?.model2} question={userInput?.question} answer="" />
       </div>
       <Download />
     </div>

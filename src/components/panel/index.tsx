@@ -40,7 +40,7 @@ export default function Index({ setMessages }: PanelProps) {
   }
   function handleSend() {
     if (text.trim() === "") return
-    sendJsonMessage({})
+    // sendJsonMessage({})
     setUserInput({
       question: text,
       model1: selectedModelLeft,
@@ -127,6 +127,7 @@ export default function Index({ setMessages }: PanelProps) {
               ref={textareaRef}
               cols={30}
               rows={10}
+              value={text}
               onChange={handleChange}
               onKeyDown={onKeyDown}
               onCompositionStart={handleCompositionStart}
