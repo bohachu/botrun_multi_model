@@ -25,13 +25,14 @@ export default function Index({ setMessages }: PanelProps) {
       setSelectedModelRight(pair.models.model2)
     }
   }
-
   const handleModelLeftChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModelLeft(event.target.value)
   }
-
   const handleModelRightChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModelRight(event.target.value)
+  }
+  const handleClick = () => {
+    sendJsonMessage({})
   }
 
   return (
@@ -91,7 +92,7 @@ export default function Index({ setMessages }: PanelProps) {
         </div>
       </div>
       <div className="fn-area">
-        <button className="br-btn large full obvious">
+        <button className="br-btn large full obvious" onClick={handleClick}>
           <span>提問</span>
         </button>
       </div>
