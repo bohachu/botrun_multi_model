@@ -12,6 +12,11 @@ type ResultProps = {
 export default function Index({ messages }: ResultProps) {
   const userInput = useRecoilValue(userInputState)
 
+  const downloadData = [
+    { question: userInput?.question, model: userInput?.model1, answer: "" },
+    { question: userInput?.question, model: userInput?.model2, answer: "" },
+  ]
+
   return (
     <div className="result-container">
       <ul id="tabs-nav" className="tabs-nav">
@@ -22,7 +27,7 @@ export default function Index({ messages }: ResultProps) {
         <Content model={userInput?.model1} question={userInput?.question} answer="" />
         <Content model={userInput?.model2} question={userInput?.question} answer="" />
       </div>
-      <Download />
+      {userInput?.question ? <Download data={downloadData} /> : null}
     </div>
   )
 }
