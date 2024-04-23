@@ -1,15 +1,15 @@
 import { useRef, useState, useEffect } from "react"
 import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
-import { MessageProps } from "@/types"
-import { useRecoilState } from "recoil"
-import { userInputState } from "@utils/atoms"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { userInputState, userAuthState } from "@utils/atoms"
 import useModel from "@/hooks/useModel"
 
 type PanelProps = {
-  setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>
+  setModel1Message: React.Dispatch<React.SetStateAction<string>>
+  setModel2Message: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function Index({ setMessages }: PanelProps) {
+export default function Index({ setModel1Message, setModel2Message }: PanelProps) {
   const { data: models } = useModel()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -19,8 +19,9 @@ export default function Index({ setMessages }: PanelProps) {
   const [selectedModelLeft, setSelectedModelLeft] = useState("")
   const [selectedModelRight, setSelectedModelRight] = useState("")
   const [userInput, setUserInput] = useRecoilState(userInputState)
+  const user = useRecoilValue(userAuthState)
 
-  const { sendJsonMessage } = useBotrunWebSocket({ setMessages })
+  const { sendJsonMessage } = useBotrunWebSocket({ setModel1Message, setModel2Message })
 
   const handleCollectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value
@@ -39,7 +40,15 @@ export default function Index({ setMessages }: PanelProps) {
   }
   function handleSend() {
     if (text.trim() === "") return
-    // sendJsonMessage({})
+    setModel1Message("")
+    setModel2Message("")
+    sendJsonMessage({
+      user_input: text,
+      jwt_token: user?.token,
+      model1: selectedModelLeft,
+      model2: selectedModelRight,
+      session_id: "new",
+    })
     setUserInput({
       question: text,
       model1: selectedModelLeft,

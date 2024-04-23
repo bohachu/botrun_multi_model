@@ -1,15 +1,15 @@
 import { useRecoilValue } from "recoil"
 import { userInputState } from "@utils/atoms"
-import { MessageProps } from "@/types"
 import TabLabel from "./TabLabel"
 import Content from "./Content"
 import Download from "./Download"
 
-type ResultProps = {
-  messages: MessageProps[]
+type ResultPorps = {
+  model1Message: string
+  model2Message: string
 }
 
-export default function Index({ messages }: ResultProps) {
+export default function Index({ model1Message, model2Message }: ResultPorps) {
   const userInput = useRecoilValue(userInputState)
 
   const downloadData = [
@@ -24,8 +24,8 @@ export default function Index({ messages }: ResultProps) {
         {<TabLabel name={userInput?.model2} />}
       </ul>
       <div id="tabs-content" className="tabs-content">
-        <Content model={userInput?.model1} question={userInput?.question} answer="" />
-        <Content model={userInput?.model2} question={userInput?.question} answer="" />
+        <Content model={userInput?.model1} question={userInput?.question} answer={model1Message} />
+        <Content model={userInput?.model2} question={userInput?.question} answer={model2Message} />
       </div>
       {userInput?.question ? <Download data={downloadData} /> : null}
     </div>

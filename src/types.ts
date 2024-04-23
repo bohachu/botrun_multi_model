@@ -10,11 +10,6 @@ export type UserStateProps = {
   username: string
 }
 
-export type MessageProps = {
-  name: string
-  message: string
-}
-
 export type userInputProps = {
   question: string
   model1: string

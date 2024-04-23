@@ -1,15 +1,15 @@
 import { useState } from "react"
 import Panel from "@components/panel"
 import Result from "@components/result"
-import { MessageProps } from "@/types"
 
 export default function Index() {
-  const [messages, setMessages] = useState<MessageProps[]>([])
+  const [model1Message, setModel1Message] = useState<string>("")
+  const [model2Message, setModel2Message] = useState<string>("")
 
   return (
     <div className="multi-module-container">
-      <Panel setMessages={setMessages} />
-      <Result messages={messages} />
+      <Panel setModel1Message={setModel1Message} setModel2Message={setModel2Message} />
+      <Result model1Message={model1Message} model2Message={model2Message} />
     </div>
   )
 }
