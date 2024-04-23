@@ -8,7 +8,7 @@ type WebSocketProps = {
 
 export default function useBotrunWebSocket(props: WebSocketProps) {
   const { setMessages } = props
-  const webSocketUrl = process.env.REACT_APP_WEB_SOCKET_URL || "ws://localhost:8000/chat"
+  const webSocketUrl = process.env.REACT_APP_WEB_SOCKET_URL + "/chat" ?? "ws://localhost:8000/chat"
 
   const onMessage = (event: WebSocketEventMap["message"]) => {
     const data = event.data
