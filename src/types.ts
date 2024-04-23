@@ -5,11 +5,9 @@ export type TokenProps = {
 }
 
 export type UserStateProps = {
+  token: string
+  type: string
   username: string
-  email: string
-  name: string
-  is_disabled: boolean
-  is_admin: boolean
 }
 
 export type MessageProps = {

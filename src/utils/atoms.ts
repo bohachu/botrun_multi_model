@@ -1,16 +1,10 @@
 import { atom } from "recoil"
 import { recoilPersist } from "recoil-persist"
-import { TokenProps, UserStateProps, userInputProps } from "@/types"
+import { UserStateProps, userInputProps } from "@/types"
 
 const { persistAtom } = recoilPersist()
-export const authTokenState = atom<TokenProps | null>({
-  key: "authTokenState",
-  default: null,
-  effects_UNSTABLE: [persistAtom],
-})
-
-export const authUserState = atom<UserStateProps | null>({
-  key: "authUserState",
+export const userAuthState = atom<UserStateProps | null>({
+  key: "userAuthState",
   default: null,
   effects_UNSTABLE: [persistAtom],
 })
