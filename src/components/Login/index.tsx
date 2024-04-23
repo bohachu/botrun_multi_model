@@ -1,32 +1,15 @@
-import { useSearchParams } from "react-router-dom"
 import Indicator from "@components/Login/Indicator"
-import useSSO from "@hooks/useSSO"
-import { useEffect } from "react"
-import { useRecoilState } from "recoil"
-import { userAuthState } from "@utils/atoms"
+import useToken from "@hooks/useToken"
 
 export default function Frame() {
-  const [searchParams] = useSearchParams()
-  const botrunToken = searchParams.get("botrun_token")
-  const userName = searchParams.get("username") || ""
-  const [, setUser] = useRecoilState(userAuthState)
-
-  const { data = undefined, isError: isErrorSSO } = useSSO({ botrunToken, userName })
+  const { refetch, isFetching } = useToken()
 
   const handleClick = () => {
-    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || ""
-    const authUrl = API_BASE_URL + "/auth-login"
-
-    if (authUrl) {
-      window.location.href = authUrl + "?default_botrun=index"
-    } else {
-      console.error("Auth URL is not defined in environment variables.")
-    }
+    refetch()
   }
 
   const ElementByStatus = () => {
-    // if (isErrorSSO || isErrorDinD) return <Indicator text="Oops!發生錯誤了..." />
-    if (botrunToken !== undefined && userName !== "") return <Indicator text="正在初始化波特人" />
+    if (isFetching) return <Indicator text="正在初始化波特人" />
 
     return (
       <a className="br-btn for-login" onClick={handleClick}>
@@ -35,16 +18,6 @@ export default function Frame() {
       </a>
     )
   }
-
-  useEffect(() => {
-    if (data && botrunToken) {
-      setUser({
-        token: botrunToken as string,
-        type: "bearer",
-        username: data.username,
-      })
-    }
-  }, [data, botrunToken])
 
   return (
     <div className="botrun-login">

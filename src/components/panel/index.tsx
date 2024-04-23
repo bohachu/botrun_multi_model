@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react"
 import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilState } from "recoil"
 import { userInputState, userAuthState } from "@utils/atoms"
 import useModel from "@/hooks/useModel"
 
@@ -18,8 +18,8 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
   const [selectedCollection, setSelectedCollection] = useState("")
   const [selectedModelLeft, setSelectedModelLeft] = useState("")
   const [selectedModelRight, setSelectedModelRight] = useState("")
-  const [userInput, setUserInput] = useRecoilState(userInputState)
-  const user = useRecoilValue(userAuthState)
+  const [, setUserInput] = useRecoilState(userInputState)
+  const [user, setUser] = useRecoilState(userAuthState)
 
   const { sendJsonMessage } = useBotrunWebSocket({ setModel1Message, setModel2Message })
 
@@ -56,6 +56,9 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
     })
     setText("")
     textareaRef.current?.focus()
+  }
+  function handleLogout() {
+    setUser(null)
   }
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setText(event.target.value)
@@ -156,6 +159,9 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
           <span>提問</span>
         </button>
       </div>
+      <button className="br-btn large full obvious" onClick={handleLogout}>
+        <span>登出</span>
+      </button>
     </div>
   )
 }
