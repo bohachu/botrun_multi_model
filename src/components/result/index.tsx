@@ -13,8 +13,8 @@ export default function Index({ model1Message, model2Message }: ResultPorps) {
   const userInput = useRecoilValue(userInputState)
 
   const downloadData = [
-    { question: userInput?.question, model: userInput?.model1, answer: "" },
-    { question: userInput?.question, model: userInput?.model2, answer: "" },
+    { question: userInput?.question, model: userInput?.model1, answer: model1Message },
+    { question: userInput?.question, model: userInput?.model2, answer: model2Message },
   ]
 
   return (

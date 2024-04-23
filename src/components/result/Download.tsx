@@ -10,7 +10,7 @@ type DownloadProps = {
 
 export default function Download({ data }: DownloadProps) {
   const handleDownload = () => {
-    const header = "提問,模型,回答\n"
+    const header = "使用者提問,模型,回答,使用者預期的答案,可用性,真實性,完整性,即時性\n"
     const csvContent = data
       .map(data => `"${data.question}","${data.model}","${data.answer}"`)
       .join("\n")
