@@ -31,7 +31,7 @@ export default function Frame() {
     return (
       <a className="br-btn for-login" onClick={handleClick}>
         <i className="icon icon-15"></i>
-        <span>登入</span>
+        <span>開始始用</span>
       </a>
     )
   }
