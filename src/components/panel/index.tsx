@@ -1,31 +1,30 @@
 import { useRef, useState, useEffect } from "react"
-import { models } from "@/samples"
 import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
 import { MessageProps } from "@/types"
 import { useRecoilState } from "recoil"
 import { userInputState } from "@utils/atoms"
-// import useModel from "@/hooks/useModel"
+import useModel from "@/hooks/useModel"
 
 type PanelProps = {
   setMessages: React.Dispatch<React.SetStateAction<MessageProps[]>>
 }
 
 export default function Index({ setMessages }: PanelProps) {
-  // const { data: models } = useModel()
+  const { data: models } = useModel()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const [text, setText] = useState("")
   const [isComposing, setIsComposing] = useState(false)
   const [selectedCollection, setSelectedCollection] = useState("")
-  const [selectedModelLeft, setSelectedModelLeft] = useState(models.list[0])
-  const [selectedModelRight, setSelectedModelRight] = useState(models.list[0])
+  const [selectedModelLeft, setSelectedModelLeft] = useState("")
+  const [selectedModelRight, setSelectedModelRight] = useState("")
   const [userInput, setUserInput] = useRecoilState(userInputState)
 
   const { sendJsonMessage } = useBotrunWebSocket({ setMessages })
 
   const handleCollectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value
-    const pair = models.pairs.find(p => p.name === selected)
+    const pair = models?.pairs.find(p => p.name === selected)
     setSelectedCollection(selected)
     if (pair) {
       setSelectedModelLeft(pair.models.model1)
@@ -71,6 +70,13 @@ export default function Index({ setMessages }: PanelProps) {
     textareaRef.current.focus()
   }, [textareaRef])
 
+  useEffect(() => {
+    if (models) {
+      setSelectedModelLeft(models.list[0])
+      setSelectedModelRight(models.list[0])
+    }
+  }, [models])
+
   return (
     <div className="panel-container">
       <div className="form-container">
@@ -87,7 +93,7 @@ export default function Index({ setMessages }: PanelProps) {
               <option value="" disabled>
                 選擇測試的組合
               </option>
-              {models.pairs.map(p => (
+              {models?.pairs.map(p => (
                 <option key={`model-1-${p.name}`} value={p.name}>
                   {p.name}
                 </option>
@@ -100,7 +106,7 @@ export default function Index({ setMessages }: PanelProps) {
               value={selectedModelLeft}
               onChange={handleModelLeftChange}
             >
-              {models.list.map(m => (
+              {models?.list.map(m => (
                 <option key={`model-1-${m}`} value={m}>
                   {m}
                 </option>
@@ -112,7 +118,7 @@ export default function Index({ setMessages }: PanelProps) {
               value={selectedModelRight}
               onChange={handleModelRightChange}
             >
-              {models.list.map(m => (
+              {models?.list.map(m => (
                 <option key={`model-2-${m}`} value={m}>
                   {m}
                 </option>

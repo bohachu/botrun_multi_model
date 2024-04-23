@@ -17,7 +17,7 @@ type ResponseData = {
 export default function useModel() {
   const queryFn = () =>
     request({
-      url: "/model/pairs",
+      url: "/model/list",
       method: "get",
     })
 

@@ -7,7 +7,7 @@ type interceptorProps = {
   children: ReactNode
 }
 
-const baseUrl = process.env.REACT_APP_API_URL
+const baseUrl = process.env.REACT_APP_API_BASE_URL
 const client = axios.create({ baseURL: baseUrl })
 
 export function request({ ...options }) {
