@@ -7,10 +7,22 @@ type DownloadProps = {
 export default function Download({ data }: DownloadProps) {
   const handleDownload = () => {
     const header = "使用者提問,模型,回答,使用者預期的答案,可用性,真實性,完整性,即時性\n"
+
+    const escapeCsvField = (field: string): string => {
+      if (typeof field !== "string") return field
+      return `"${field.replace(/"/g, '""')}"`
+    }
+
     const csvContent = data
       .map(
         data =>
-          `"${data.question}","${data.model}","${data.answer}",,"${data.availability}","${data.authenticity}","${data.integrity}","${data.timeliness}"`
+          `${escapeCsvField(data.question)},${escapeCsvField(data.model)},${escapeCsvField(
+            data.answer
+          )},,${escapeCsvField(data.availability.toString())},${escapeCsvField(
+            data.authenticity.toString()
+          )},${escapeCsvField(data.integrity.toString())},${escapeCsvField(
+            data.timeliness.toString()
+          )}`
       )
       .join("\n")
 
