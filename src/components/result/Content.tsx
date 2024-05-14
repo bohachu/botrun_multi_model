@@ -1,4 +1,5 @@
 import ChatItem from "./ChatItem"
+import Feedback from "./Feedback"
 import Loading from "./Loading"
 
 type ContentProps = {
@@ -18,6 +19,7 @@ export default function Content({ model, question, answer }: ContentProps) {
           <ChatItem title="回答" content={answer} sender="system" />
         )}
       </div>
+      {!question ? <Feedback /> : null}
     </div>
   )
 }
