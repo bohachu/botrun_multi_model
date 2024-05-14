@@ -6,9 +6,10 @@ type ContentProps = {
   model: string
   question: string
   answer: string
+  index: number
 }
 
-export default function Content({ model, question, answer }: ContentProps) {
+export default function Content({ model, question, answer, index }: ContentProps) {
   return (
     <div className="tab-content">
       <div className="br-chat-display">
@@ -19,7 +20,7 @@ export default function Content({ model, question, answer }: ContentProps) {
           <ChatItem title="回答" content={answer} sender="system" />
         )}
       </div>
-      {!question ? <Feedback /> : null}
+      {question ? <Feedback index={index} /> : null}
     </div>
   )
 }

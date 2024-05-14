@@ -1,8 +1,9 @@
-import { useRecoilValue } from "recoil"
-import { userInputState } from "@utils/atoms"
+import { useRecoilState, useRecoilValue } from "recoil"
+import { userInputState, downloadDataState } from "@utils/atoms"
 import TabLabel from "./TabLabel"
 import Content from "./Content"
 import Download from "./Download"
+import { useEffect } from "react"
 
 type ResultPorps = {
   model1Message: string
@@ -11,11 +12,30 @@ type ResultPorps = {
 
 export default function Index({ model1Message, model2Message }: ResultPorps) {
   const userInput = useRecoilValue(userInputState)
+  const [downloadData, setDownloadData] = useRecoilState(downloadDataState)
 
-  const downloadData = [
-    { question: userInput?.question, model: userInput?.model1, answer: model1Message },
-    { question: userInput?.question, model: userInput?.model2, answer: model2Message },
-  ]
+  useEffect(() => {
+    setDownloadData([
+      {
+        question: userInput?.question,
+        model: userInput?.model1,
+        answer: model1Message,
+        availability: 5,
+        authenticity: 5,
+        integrity: 5,
+        timeliness: 5,
+      },
+      {
+        question: userInput?.question,
+        model: userInput?.model2,
+        answer: model2Message,
+        availability: 5,
+        authenticity: 5,
+        integrity: 5,
+        timeliness: 5,
+      },
+    ])
+  }, [userInput, model1Message, model2Message])
 
   return (
     <div className="result-container">
@@ -24,8 +44,18 @@ export default function Index({ model1Message, model2Message }: ResultPorps) {
         {<TabLabel name={userInput?.model2} />}
       </ul>
       <div id="tabs-content" className="tabs-content">
-        <Content model={userInput?.model1} question={userInput?.question} answer={model1Message} />
-        <Content model={userInput?.model2} question={userInput?.question} answer={model2Message} />
+        <Content
+          model={userInput?.model1}
+          question={userInput?.question}
+          answer={model1Message}
+          index={0}
+        />
+        <Content
+          model={userInput?.model2}
+          question={userInput?.question}
+          answer={model2Message}
+          index={1}
+        />
       </div>
       {userInput?.question ? <Download data={downloadData} /> : null}
     </div>

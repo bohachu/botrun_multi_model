@@ -15,3 +15,13 @@ export type userInputProps = {
   model1: string
   model2: string
 }
+
+export type DownloadData = {
+  question: string
+  model: string
+  answer: string
+  availability: number
+  authenticity: number
+  integrity: number
+  timeliness: number
+}

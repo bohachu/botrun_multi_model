@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react"
 import useBotrunWebSocket from "@/hooks/useBotrunWebSocket"
-import { useRecoilState } from "recoil"
-import { userInputState, userAuthState } from "@utils/atoms"
+import { useRecoilState, useResetRecoilState } from "recoil"
+import { userInputState, userAuthState, downloadDataState } from "@utils/atoms"
 import useModel from "@/hooks/useModel"
 
 type PanelProps = {
@@ -21,6 +21,7 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
   const [, setUserInput] = useRecoilState(userInputState)
   const [user, setUser] = useRecoilState(userAuthState)
 
+  const resetDownloadData = useResetRecoilState(downloadDataState)
   const { sendJsonMessage } = useBotrunWebSocket({ setModel1Message, setModel2Message })
 
   const handleCollectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -57,15 +58,13 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
     setText("")
     textareaRef.current?.focus()
   }
-  function handleLogout() {
-    setUser(null)
-  }
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setText(event.target.value)
   }
   function onKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.shiftKey && event.key === "Enter") {
     } else if (event.key === "Enter" && !isComposing) {
+      resetDownloadData()
       handleSend()
       event.preventDefault()
     }

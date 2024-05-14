@@ -1,18 +1,17 @@
-import React from "react"
+import { DownloadData } from "@/types"
 
 type DownloadProps = {
-  data: Array<{
-    question: string
-    model: string
-    answer: string
-  }>
+  data: Array<DownloadData>
 }
 
 export default function Download({ data }: DownloadProps) {
   const handleDownload = () => {
     const header = "使用者提問,模型,回答,使用者預期的答案,可用性,真實性,完整性,即時性\n"
     const csvContent = data
-      .map(data => `"${data.question}","${data.model}","${data.answer}"`)
+      .map(
+        data =>
+          `"${data.question}","${data.model}","${data.answer}",,"${data.availability}","${data.authenticity}","${data.integrity}","${data.timeliness}"`
+      )
       .join("\n")
 
     const BOM = "\uFEFF"

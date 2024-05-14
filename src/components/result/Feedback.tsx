@@ -1,11 +1,22 @@
+import { useRecoilState } from "recoil"
+import { downloadDataState } from "@utils/atoms"
 import Tooltip from "@mui/material/Tooltip"
 import Slider from "@mui/material/Slider"
 import InfoIcon from "@mui/icons-material/Info"
+import { DownloadData } from "@/types"
 
-function FeedbackItem({ title, description }: { title: string; description: string }) {
+type FeedbackItemProps = {
+  title: string
+  description: string
+  value: number
+  onChange: (newValue: number) => void
+}
+
+function FeedbackItem({ title, description, value, onChange }: FeedbackItemProps) {
   const handleChange = (event: Event, newValue: number | number[]) => {
-    // setValue(newValue as number)
+    onChange(newValue as number)
   }
+
   return (
     <>
       <div
@@ -23,21 +34,35 @@ function FeedbackItem({ title, description }: { title: string; description: stri
       </div>
       <Slider
         aria-label={title}
-        defaultValue={5}
         valueLabelDisplay="auto"
-        shiftStep={3}
         step={1}
         marks
         min={0}
         max={10}
-        // value={value}
+        value={value}
         onChange={handleChange}
       />
     </>
   )
 }
 
-export default function Feedback() {
+export default function Feedback({ index }: { index: number }) {
+  const [downloadData, setDownloadData] = useRecoilState(downloadDataState)
+  const modelData = downloadData[index]
+
+  const handleSliderChange = (field: keyof DownloadData, newValue: number) => {
+    if (modelData) {
+      const updatedData = downloadData.map((data, i) =>
+        i === index ? { ...data, [field]: newValue } : data
+      )
+      setDownloadData(updatedData)
+    }
+  }
+
+  if (!modelData) {
+    return <div>Loading...</div>
+  }
+
   return (
     <>
       <div className="br-chat-item system">
@@ -56,10 +81,30 @@ export default function Feedback() {
         </div>
       </div>
       <div style={{ padding: "0 24px" }}>
-        <FeedbackItem title="可用性" description="123" />
-        <FeedbackItem title="真實性" description="123" />
-        <FeedbackItem title="完整性" description="123" />
-        <FeedbackItem title="即時性" description="123" />
+        <FeedbackItem
+          title="可用性"
+          description="123"
+          value={modelData.availability}
+          onChange={newValue => handleSliderChange("availability", newValue)}
+        />
+        <FeedbackItem
+          title="真實性"
+          description="123"
+          value={modelData.authenticity}
+          onChange={newValue => handleSliderChange("authenticity", newValue)}
+        />
+        <FeedbackItem
+          title="完整性"
+          description="123"
+          value={modelData.integrity}
+          onChange={newValue => handleSliderChange("integrity", newValue)}
+        />
+        <FeedbackItem
+          title="即時性"
+          description="123"
+          value={modelData.timeliness}
+          onChange={newValue => handleSliderChange("timeliness", newValue)}
+        />
       </div>
     </>
   )
