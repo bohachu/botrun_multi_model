@@ -159,9 +159,6 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
           <span>提問</span>
         </button>
       </div>
-      <button className="br-btn large full obvious" onClick={handleLogout}>
-        <span>登出</span>
-      </button>
     </div>
   )
 }
