@@ -139,6 +139,18 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
           </div>
         </div>
         <div className="form-item">
+          <div className="field">設定</div>
+          <div className="value">
+            <div className="jcsb">
+              <span>開啟台灣慣用語</span>
+              <div className="switch">
+                <input type="checkbox" id="switch-1" />
+                <label htmlFor="switch-1"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="form-item">
           <div className="field">提問</div>
           <div className="value">
             <textarea
