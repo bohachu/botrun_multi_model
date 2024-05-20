@@ -83,8 +83,8 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
 
   useEffect(() => {
     if (models) {
-      setSelectedModelLeft(models.list[0])
-      setSelectedModelRight(models.list[0])
+      setSelectedModelLeft(models.list[0].model)
+      setSelectedModelRight(models.list[0].model)
     }
   }, [models])
 
@@ -118,8 +118,8 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
               onChange={handleModelLeftChange}
             >
               {models?.list.map(m => (
-                <option key={`model-1-${m}`} value={m}>
-                  {m}
+                <option key={`model-1-${m.model}`} value={m.model}>
+                  {m.model}
                 </option>
               ))}
             </select>
@@ -130,8 +130,8 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
               onChange={handleModelRightChange}
             >
               {models?.list.map(m => (
-                <option key={`model-2-${m}`} value={m}>
-                  {m}
+                <option key={`model-2-${m.model}`} value={m.model}>
+                  {m.model}
                 </option>
               ))}
             </select>

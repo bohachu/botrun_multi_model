@@ -4,6 +4,8 @@ import TabLabel from "./TabLabel"
 import Content from "./Content"
 import Download from "./Download"
 import { useEffect } from "react"
+import { ModelItem } from "@/types"
+import useModel from "@/hooks/useModel"
 
 type ResultPorps = {
   model1Message: string
@@ -11,6 +13,7 @@ type ResultPorps = {
 }
 
 export default function Index({ model1Message, model2Message }: ResultPorps) {
+  const { data: models } = useModel()
   const userInput = useRecoilValue(userInputState)
   const [downloadData, setDownloadData] = useRecoilState(downloadDataState)
 
@@ -40,8 +43,8 @@ export default function Index({ model1Message, model2Message }: ResultPorps) {
   return (
     <div className="result-container">
       <ul id="tabs-nav" className="tabs-nav">
-        {<TabLabel name={userInput?.model1} />}
-        {<TabLabel name={userInput?.model2} />}
+        {<TabLabel {...(models?.list.find(m => m.model === userInput?.model1) as ModelItem)} />}
+        {<TabLabel {...(models?.list.find(m => m.model === userInput?.model2) as ModelItem)} />}
       </ul>
       <div id="tabs-content" className="tabs-content">
         <Content

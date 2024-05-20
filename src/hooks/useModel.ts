@@ -1,6 +1,7 @@
 import { AxiosResponse, AxiosError } from "axios"
 import { useQuery } from "react-query"
 import { request } from "@utils/axios-util"
+import { ModelItem } from "@/types"
 
 type PairItem = {
   name: string
@@ -9,8 +10,9 @@ type PairItem = {
     model2: string
   }
 }
+
 type ResponseData = {
-  list: string[]
+  list: ModelItem[]
   pairs: PairItem[]
 }
 

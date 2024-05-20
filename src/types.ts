@@ -25,3 +25,8 @@ export type DownloadData = {
   integrity: number
   timeliness: number
 }
+
+export type ModelItem = {
+  model: string
+  link: string
+}
