@@ -62,7 +62,9 @@ export default function Index({ model1Message, model2Message }: ResultPorps) {
           index={1}
         />
       </div>
-      {userInput?.question ? <Download data={downloadData} /> : null}
+      {userInput.isModel1Finish && userInput.isModel2Finish ? (
+        <Download data={downloadData} />
+      ) : null}
     </div>
   )
 }
