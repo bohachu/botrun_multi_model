@@ -22,7 +22,11 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
   const [user, setUser] = useRecoilState(userAuthState)
 
   const resetDownloadData = useResetRecoilState(downloadDataState)
-  const { sendJsonMessage } = useBotrunWebSocket({ setModel1Message, setModel2Message })
+  const { sendJsonMessage } = useBotrunWebSocket({
+    setModel1Message,
+    setModel2Message,
+    setUserInput,
+  })
 
   const handleCollectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value
@@ -53,7 +57,9 @@ export default function Index({ setModel1Message, setModel2Message }: PanelProps
     setUserInput({
       question: text,
       model1: selectedModelLeft,
+      isModel1Finish: false,
       model2: selectedModelRight,
+      isModel2Finish: false,
     })
     setText("")
     textareaRef.current?.focus()

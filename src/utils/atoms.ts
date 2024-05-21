@@ -14,7 +14,9 @@ export const userInputState = atom<userInputProps>({
   default: {
     question: "",
     model1: "",
+    isModel1Finish: false,
     model2: "",
+    isModel2Finish: false,
   },
 })
 

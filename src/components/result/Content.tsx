@@ -3,13 +3,14 @@ import Feedback from "./Feedback"
 import Loading from "./Loading"
 
 type ContentProps = {
+  showFeedback: boolean
   model: string
   question: string
   answer: string
   index: number
 }
 
-export default function Content({ model, question, answer, index }: ContentProps) {
+export default function Content({ showFeedback, model, question, answer, index }: ContentProps) {
   return (
     <div className="tab-content">
       <div className="br-chat-display">
@@ -20,7 +21,7 @@ export default function Content({ model, question, answer, index }: ContentProps
           <ChatItem title="回答" content={answer} sender="system" />
         )}
       </div>
-      {question ? <Feedback index={index} /> : null}
+      {showFeedback ? <Feedback index={index} /> : null}
     </div>
   )
 }

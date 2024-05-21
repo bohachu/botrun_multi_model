@@ -48,12 +48,14 @@ export default function Index({ model1Message, model2Message }: ResultPorps) {
       </ul>
       <div id="tabs-content" className="tabs-content">
         <Content
+          showFeedback={userInput.isModel1Finish}
           model={userInput?.model1}
           question={userInput?.question}
           answer={model1Message}
           index={0}
         />
         <Content
+          showFeedback={userInput.isModel2Finish}
           model={userInput?.model2}
           question={userInput?.question}
           answer={model2Message}

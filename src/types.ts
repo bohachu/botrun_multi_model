@@ -13,7 +13,9 @@ export type UserStateProps = {
 export type userInputProps = {
   question: string
   model1: string
+  isModel1Finish: boolean
   model2: string
+  isModel2Finish: boolean
 }
 
 export type DownloadData = {
